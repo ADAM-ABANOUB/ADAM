@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADAM - Personal Profile</title>
+    <!-- 
+        IMPORTANT: 
+        - Portrait URL: https://i.postimg.cc/QMM6dkQJ/Picsart-25-11-06-22-57-23-101.png
+        - Designer link: https://koko2.com
+        - Web fonts are loaded from Google Fonts; for offline use, download fonts locally
+    -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Color tokens - light theme */
+            --bg-primary: #f8f9fa;
+            --bg-secondary: rgba(255, 255, 255, 0.85);
+            --text-primary: #1a1a1a;
+            --text-secondary: #4a4a4a;
+            --accent: #00c8a4;
+            --accent-glow: rgba(0, 200, 164, 0.3);
+            --glass-bg: rgba(255, 255, 255, 0.15);
+            --glass-border: rgba(255, 255, 255, 0.25);
+            --shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            
+            /* RGB animation variables */
+            --rgb-1: 0, 200, 255;
+            --rgb-2: 200, 100, 255;
+            --rgb-3: 255, 200, 100;
+            
+            /* Typography */
+            --font-serif: 'Playfair Display', 'Times New Roman', serif;
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            
+            /* Spacing */
+            --space-xs: 0.5rem;
+            --space-sm: 1rem;
+            --space-md: 2rem;
+            --space-lg: 3rem;
+            --space-xl: 5rem;
+            
+            /* Transitions */
+            --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: rgba(20, 20, 20, 0.9);
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --glass-bg: rgba(0, 0, 0, 0.3);
+            --glass-border: rgba(255, 255, 255, 0.15);
+            --shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+            transition: var(--transition);
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Premium RGB Background Animation */
+        .rgb-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(var(--rgb-1), 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(var(--rgb-2), 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(var(--rgb-3), 0.08) 0%, transparent 50%);
+            animation: rgbFloat 30s ease-in-out infinite;
+        }
+
+        .rgb-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                linear-gradient(45deg, 
+                    rgba(var(--rgb-1), 0.03) 0%, 
+                    rgba(var(--rgb-2), 0.06) 25%, 
+                    rgba(var(--rgb-3), 0.03) 50%, 
+                    rgba(var(--rgb-1), 0.06) 75%, 
+                    rgba(var(--rgb-2), 0.03) 100%);
+            background-size: 400% 400%;
+            animation: rgbShift 45s ease-in-out infinite;
+        }
+
+        @keyframes rgbFloat {
+            0%, 100% { 
+                transform: translate(0, 0) scale(1);
+                opacity: 0.8;
+            }
+            25% { 
+                transform: translate(-2%, 1%) scale(1.02);
+                opacity: 1;
+            }
+            50% { 
+                transform: translate(1%, -1%) scale(0.98);
+                opacity: 0.9;
+            }
+            75% { 
+                transform: translate(-1%, 2%) scale(1.01);
+                opacity: 1;
+            }
+        }
+
+        @keyframes rgbShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .rgb-background,
+            .rgb-overlay {
+                animation: none;
+            }
+        }
+
+        /* Layout */
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: var(--space-md);
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: var(--space-xl);
+            min-height: 100vh;
+            align-items: center;
+            position: relative;
+        }
+
+        @media (max-width: 1200px) {
+            .container {
+                grid-template-columns: 1fr;
+                gap: var(--space-lg);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: var(--space-sm);
+                gap: var(--space-md);
+            }
+        }
+
+        /* Header & Branding */
+        .header {
+            position: fixed;
+            top: var(--space-md);
+            left: var(--space-md);
+            z-index: 100;
+        }
+
+        .brand {
+            font-family: var(--font-serif);
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 700;
+            background: linear-gradient(
+                45deg,
+                rgba(var(--rgb-1), 1),
+                rgba(var(--rgb-2), 1),
+                rgba(var(--rgb-3), 1)
+            );
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+            display: block;
+            letter-spacing: -0.02em;
+            line-height: 0.9;
+            animation: rgbText 8s ease-in-out infinite;
+        }
+
+        @keyframes rgbText {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        /* Controls */
+        .controls {
+            position: fixed;
+            top: var(--space-md);
+            right: var(--space-md);
+            z-index: 1000;
+            display: flex;
+            gap: var(--space-xs);
+            background: var(--bg-secondary);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            padding: var(--space-xs);
+            box-shadow: var(--shadow);
+        }
+
+        .control-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: 50px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+        }
+
+        .control-btn:hover,
+        .control-btn:focus {
+            background: var(--glass-bg);
+            outline: none;
+            transform: translateY(-1px);
+        }
+
+        .control-btn.active {
+            background: var(--glass-bg);
+        }
+
+        /* Portrait Section - No Border, Centered */
+        .portrait-section {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .portrait-container {
+            position: relative;
+            width: 396px;
+            height: 800px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .portrait {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(1.05) contrast(1.1) saturate(1.1);
+            position: relative;
+            transition: transform 0.1s ease-out;
+            animation: portraitAppear 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .portrait-fog {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 150px;
+            background: linear-gradient(
+                to top,
+                var(--bg-primary) 0%,
+                transparent 100%
+            );
+            pointer-events: none;
+        }
+
+        @keyframes portraitAppear {
+            0% {
+                opacity: 0;
+                transform: scale(0.9) translateY(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .portrait-fallback {
+            width: 396px;
+            height: 800px;
+            background: var(--glass-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-family: var(--font-sans);
+            font-size: 1.1rem;
+        }
+
+        /* Cards Section */
+        .cards-section {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-lg);
+            height: 85vh;
+            overflow-y: auto;
+            padding-right: var(--space-sm);
+        }
+
+        .cards-section::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .cards-section::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .cards-section::-webkit-scrollbar-thumb {
+            background: var(--glass-border);
+            border-radius: 2px;
+        }
+
+        .glass-card {
+            background: var(--bg-secondary);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: var(--space-lg);
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            animation: pulseGlow 3s ease-in-out infinite;
+        }
+
+        .glass-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+            opacity: 0;
+            transition: var(--transition);
+            pointer-events: none;
+        }
+
+        .glass-card:hover::after {
+            opacity: 0.1;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            margin-bottom: var(--space-md);
+        }
+
+        .accent-dot {
+            width: 10px;
+            height: 10px;
+            background: var(--accent);
+            border-radius: 50%;
+            flex-shrink: 0;
+            box-shadow: 0 0 20px var(--accent-glow);
+            animation: dotPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes dotPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .card-title {
+            font-family: var(--font-sans);
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 1.3rem;
+            letter-spacing: -0.01em;
+        }
+
+        /* About Card */
+        .about-grid {
+            display: grid;
+            gap: var(--space-md);
+        }
+
+        .about-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: var(--space-sm) 0;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .about-label {
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .about-value {
+            color: var(--text-primary);
+            font-weight: 600;
+            text-align: right;
+            font-size: 1rem;
+        }
+
+        .about-description {
+            margin-top: var(--space-md);
+            color: var(--text-secondary);
+            line-height: 1.8;
+            font-size: 1.05rem;
+            text-align: justify;
+        }
+
+        /* Contact Card */
+        .contact-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-sm);
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            padding: var(--space-sm);
+            border-radius: 12px;
+            transition: var(--transition);
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            position: relative;
+        }
+
+        .contact-item:hover,
+        .contact-item:focus {
+            background: var(--glass-bg);
+            outline: none;
+            transform: translateX(5px);
+        }
+
+        .contact-icon {
+            width: 24px;
+            height: 24px;
+            flex-shrink: 0;
+            color: var(--accent);
+        }
+
+        .contact-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .contact-label {
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .contact-value {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 400;
+        }
+
+        .copy-indicator {
+            opacity: 0;
+            color: var(--accent);
+            font-size: 0.8rem;
+            transition: var(--transition);
+            position: absolute;
+            right: var(--space-sm);
+        }
+
+        .contact-item.copied .copy-indicator {
+            opacity: 1;
+        }
+
+        /* Visit Counter */
+        .visit-counter {
+            position: fixed;
+            bottom: var(--space-md);
+            left: var(--space-md);
+            background: var(--bg-secondary);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            padding: var(--space-xs) var(--space-sm);
+            color: var(--text-secondary);
+            font-family: var(--font-sans);
+            font-size: 0.8rem;
+            font-weight: 500;
+            z-index: 100;
+            box-shadow: var(--shadow);
+        }
+
+        /* Copyright */
+        .copyright {
+            position: fixed;
+            bottom: var(--space-md);
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--text-secondary);
+            font-family: var(--font-sans);
+            font-size: 0.7rem;
+            z-index: 100;
+            text-align: center;
+            background: var(--bg-secondary);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            padding: 0.3rem 1rem;
+        }
+
+        /* Designer Button - Smaller with blur background */
+        .designer-btn {
+            position: fixed;
+            bottom: var(--space-md);
+            right: var(--space-md);
+            background: var(--bg-secondary);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            padding: 0.4rem 1rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-family: var(--font-sans);
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: var(--transition);
+            z-index: 100;
+            box-shadow: var(--shadow);
+        }
+
+        .designer-btn:hover,
+        .designer-btn:focus {
+            background: var(--glass-bg);
+            outline: none;
+            transform: translateY(-2px);
+        }
+
+        .designer-btn::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 1px;
+            background: var(--accent);
+            transition: var(--transition);
+            transform: translateX(-50%);
+        }
+
+        .designer-btn:hover::after {
+            width: 70%;
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 80px;
+            right: var(--space-md);
+            background: var(--bg-secondary);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: var(--space-sm) var(--space-md);
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: var(--transition);
+            z-index: 1000;
+            box-shadow: var(--shadow);
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* RTL Support - Enhanced */
+        [dir="rtl"] .header {
+            left: auto;
+            right: var(--space-md);
+        }
+
+        [dir="rtl"] .controls {
+            right: auto;
+            left: var(--space-md);
+        }
+
+        [dir="rtl"] .designer-btn {
+            right: auto;
+            left: var(--space-md);
+        }
+
+        [dir="rtl"] .visit-counter {
+            left: auto;
+            right: var(--space-md);
+        }
+
+        [dir="rtl"] .toast {
+            right: auto;
+            left: var(--space-md);
+        }
+
+        [dir="rtl"] .about-item {
+            flex-direction: row-reverse;
+            text-align: right;
+        }
+
+        [dir="rtl"] .about-value {
+            text-align: left;
+        }
+
+        [dir="rtl"] .contact-item {
+            flex-direction: row-reverse;
+            text-align: right;
+        }
+
+        [dir="rtl"] .contact-item:hover,
+        [dir="rtl"] .contact-item:focus {
+            transform: translateX(-5px);
+        }
+
+        [dir="rtl"] .contact-content {
+            text-align: right;
+        }
+
+        [dir="rtl"] .copy-indicator {
+            right: auto;
+            left: var(--space-sm);
+        }
+
+        [dir="rtl"] .cards-section {
+            padding-right: 0;
+            padding-left: var(--space-sm);
+        }
+
+        [dir="rtl"] .cards-section::-webkit-scrollbar-thumb {
+            margin-left: var(--space-sm);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .portrait-section {
+                height: auto;
+                justify-content: flex-start;
+            }
+            
+            .portrait-container {
+                width: 100%;
+                max-width: 396px;
+                height: 800px;
+            }
+            
+            .cards-section {
+                height: auto;
+                overflow-y: visible;
+                padding-right: 0;
+            }
+            
+            .glass-card {
+                padding: var(--space-md);
+            }
+            
+            .controls {
+                flex-direction: column;
+                border-radius: 16px;
+            }
+            
+            .contact-item {
+                gap: var(--space-sm);
+            }
+            
+            .visit-counter {
+                bottom: 70px;
+            }
+            
+            .copyright {
+                bottom: 70px;
+                font-size: 0.6rem;
+                padding: 0.2rem 0.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: var(--space-xs);
+            }
+            
+            .header {
+                top: var(--space-sm);
+                left: var(--space-sm);
+            }
+            
+            .controls {
+                top: var(--space-sm);
+                right: var(--space-sm);
+            }
+            
+            .designer-btn {
+                bottom: var(--space-sm);
+                right: var(--space-sm);
+            }
+            
+            .visit-counter {
+                bottom: 60px;
+                left: var(--space-sm);
+            }
+            
+            .copyright {
+                bottom: 60px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 90%;
+                font-size: 0.55rem;
+            }
+            
+            .brand {
+                font-size: clamp(2rem, 8vw, 3rem);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="rgb-background"></div>
+    <div class="rgb-overlay"></div>
+    
+    <header class="header">
+        <div class="brand">ADAM</div>
+    </header>
+
+    <div class="controls">
+        <button class="control-btn" id="themeToggle" aria-pressed="false">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+            <span class="theme-text">Dark</span>
+        </button>
+        <button class="control-btn" id="languageToggle" aria-pressed="false">
+            <span class="language-text">AR</span>
+        </button>
+    </div>
+
+    <main class="container">
+        <section class="portrait-section">
+            <div class="portrait-container">
+                <img 
+                    src="https://i.postimg.cc/QMM6dkQJ/Picsart-25-11-06-22-57-23-101.png" 
+                    alt="Portrait of Adam"
+                    class="portrait"
+                    loading="eager"
+                    onerror="this.style.display='none'; document.getElementById('portraitFallback').style.display='flex';"
+                >
+                <div class="portrait-fog"></div>
+                <div id="portraitFallback" class="portrait-fallback" style="display: none;">
+                    <span class="fallback-text">Portrait unavailable</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="cards-section">
+            <article class="glass-card" id="aboutCard">
+                <div class="card-header">
+                    <div class="accent-dot"></div>
+                    <h2 class="card-title about-heading">About</h2>
+                </div>
+                <div class="about-grid">
+                    <div class="about-item">
+                        <span class="about-label name-label">Name</span>
+                        <span class="about-value name-value">Adam Abanoub Sobhy</span>
+                    </div>
+                    <div class="about-item">
+                        <span class="about-label age-label">Age</span>
+                        <span class="about-value age-value">6 Years</span>
+                    </div>
+                    <div class="about-item">
+                        <span class="about-label location-label">Nationality & Residence</span>
+                        <span class="about-value location-value">Egypt, Cairo</span>
+                    </div>
+                    <p class="about-description description-text">
+                        Adam is a talented young child model with exceptional presence in advertising, acting, and content creation. His natural expressiveness and creative personality make him stand out in the modeling industry. Adam brings genuine emotion and authenticity to every project, creating memorable moments that resonate with audiences.
+                    </p>
+                </div>
+            </article>
+
+            <article class="glass-card" id="contactCard">
+                <div class="card-header">
+                    <div class="accent-dot"></div>
+                    <h2 class="card-title contact-heading">For Advertising Requests</h2>
+                </div>
+                <ul class="contact-list">
+                    <li>
+                        <a href="mailto:adam@gmail.com" class="contact-item" target="_blank" rel="noopener noreferrer">
+                            <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                <polyline points="22,6 12,13 2,6"></polyline>
+                            </svg>
+                            <div class="contact-content">
+                                <span class="contact-label email-label">Email</span>
+                                <span class="contact-value">adam@gmail.com</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="tel:+201014752612" class="contact-item phone-item">
+                            <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                            </svg>
+                            <div class="contact-content">
+                                <span class="contact-label phone-label">Phone</span>
+                                <span class="contact-value">+20 101 475 2612</span>
+                            </div>
+                            <span class="copy-indicator">Copied!</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://wa.me/201014752612" class="contact-item" target="_blank" rel="noopener noreferrer">
+                            <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                            </svg>
+                            <div class="contact-content">
+                                <span class="contact-label whatsapp-label">WhatsApp</span>
+                                <span class="contact-value">+20 101 475 2612</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://facebook.com" class="contact-item" target="_blank" rel="noopener noreferrer">
+                            <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                            </svg>
+                            <div class="contact-content">
+                                <span class="contact-label facebook-label">Facebook</span>
+                                <span class="contact-value">Facebook.com/Adam</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://instagram.com" class="contact-item" target="_blank" rel="noopener noreferrer">
+                            <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                            </svg>
+                            <div class="contact-content">
+                                <span class="contact-label instagram-label">Instagram</span>
+                                <span class="contact-value">Instagram.com/Adam</span>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </article>
+        </section>
+    </main>
+
+    <div class="visit-counter" id="visitCounter">
+        <span class="visits-text">Visits: </span>
+        <span class="visits-count">0</span>
+    </div>
+
+    <div class="copyright" id="copyright">
+        All rights reserved © Kerolos 2025
+    </div>
+
+    <a href="https://koko2.com" class="designer-btn" target="_blank" rel="noopener noreferrer" aria-label="Design by Kerolos (opens in new tab)">
+        Design by Kerolos
+    </a>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // Enhanced Localization data
+        const translations = {
+            en: {
+                theme: {
+                    dark: "Dark",
+                    light: "Light"
+                },
+                language: {
+                    current: "EN",
+                    other: "AR"
+                },
+                about: {
+                    heading: "About",
+                    name: "Name",
+                    age: "Age",
+                    location: "Nationality & Residence",
+                    description: "Adam is a talented young child model with exceptional presence in advertising, acting, and content creation. His natural expressiveness and creative personality make him stand out in the modeling industry. Adam brings genuine emotion and authenticity to every project, creating memorable moments that resonate with audiences."
+                },
+                contact: {
+                    heading: "For Advertising Requests",
+                    email: "Email",
+                    phone: "Phone",
+                    whatsapp: "WhatsApp",
+                    facebook: "Facebook",
+                    instagram: "Instagram"
+                },
+                designer: "Design by Kerolos",
+                portraitUnavailable: "Portrait unavailable",
+                copied: "Copied to clipboard!",
+                visits: "Visits: ",
+                copyright: "All rights reserved © Kerolos 2025"
+            },
+            ar: {
+                theme: {
+                    dark: "داكن",
+                    light: "فاتح"
+                },
+                language: {
+                    current: "EN",
+                    other: "AR"
+                },
+                about: {
+                    heading: "حول",
+                    name: "الاسم",
+                    age: "العمر",
+                    location: "الجنسية والإقامة",
+                    description: "آدم هو عارض أطفال موهوب يتمتع بحضور استثنائي في مجال الإعلانات والتمثيل وإنشاء المحتوى. تعبيره الطبيعي وشخصيته الإبداعية تجعله متميزًا في صناعة العروض. يجلب آدم المشاعر الحقيقية والصدق لكل مشروع، مما يخلق لحظات لا تنسى تتردد في أذهان الجمهور."
+                },
+                contact: {
+                    heading: "لطلبات الإعلانات",
+                    email: "البريد الإلكتروني",
+                    phone: "الهاتف",
+                    whatsapp: "واتساب",
+                    facebook: "فيسبوك",
+                    instagram: "إنستغرام"
+                },
+                designer: "تصميم كيرولوس",
+                portraitUnavailable: "الصورة غير متاحة",
+                copied: "تم النسخ!",
+                visits: "الزيارات: ",
+                copyright: "جميع الحقوق محفوظة © كيرولوس ٢٠٢٥"
+            }
+        };
+
+        // State management
+        let currentLanguage = 'en';
+        let currentTheme = 'light';
+        let visitCount = 0;
+
+        // DOM elements
+        const themeToggle = document.getElementById('themeToggle');
+        const languageToggle = document.getElementById('languageToggle');
+        const toast = document.getElementById('toast');
+        const portrait = document.querySelector('.portrait');
+        const visitCounter = document.getElementById('visitCounter');
+        const visitsCount = visitCounter.querySelector('.visits-count');
+        const visitsText = visitCounter.querySelector('.visits-text');
+        const copyright = document.getElementById('copyright');
+
+        // Visit Counter (1 visit per minute)
+        function initializeVisitCounter() {
+            // Get initial visit count from localStorage or start from 0
+            const savedVisits = localStorage.getItem('adamVisits');
+            const startTime = localStorage.getItem('adamStartTime');
+            
+            if (savedVisits && startTime) {
+                visitCount = parseInt(savedVisits);
+                const timeDiff = Date.now() - parseInt(startTime);
+                const minutesPassed = Math.floor(timeDiff / (1000 * 60));
+                visitCount += minutesPassed;
+            } else {
+                visitCount = 0;
+                localStorage.setItem('adamStartTime', Date.now().toString());
+            }
+            
+            // Save initial count
+            localStorage.setItem('adamVisits', visitCount.toString());
+            updateVisitCounter();
+            
+            // Update every minute
+            setInterval(() => {
+                visitCount += 1;
+                localStorage.setItem('adamVisits', visitCount.toString());
+                updateVisitCounter();
+            }, 60000); // 1 minute
+        }
+
+        function updateVisitCounter() {
+            if (visitsCount && visitsText) {
+                visitsCount.textContent = formatNumber(visitCount);
+                visitsText.textContent = translations[currentLanguage].visits;
+            }
+        }
+
+        function formatNumber(num) {
+            if (num >= 1000000) {
+                return (num / 1000000).toFixed(1) + 'M';
+            } else if (num >= 1000) {
+                return (num / 1000).toFixed(1) + 'K';
+            }
+            return num.toString();
+        }
+
+        // Initialize from localStorage or system preferences
+        function initializeApp() {
+            // Theme initialization
+            try {
+                const savedTheme = localStorage.getItem('theme');
+                const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                
+                if (savedTheme === 'dark' || savedTheme === 'light') {
+                    currentTheme = savedTheme;
+                } else {
+                    currentTheme = systemPrefersDark ? 'dark' : 'light';
+                }
+                applyTheme();
+            } catch (e) {
+                console.log('Theme initialization error:', e);
+                currentTheme = 'light';
+                applyTheme();
+            }
+
+            // Language initialization
+            try {
+                const savedLanguage = localStorage.getItem('language');
+                if (savedLanguage === 'en' || savedLanguage === 'ar') {
+                    currentLanguage = savedLanguage;
+                }
+                applyLanguage();
+            } catch (e) {
+                console.log('Language initialization error:', e);
+                currentLanguage = 'en';
+                applyLanguage();
+            }
+
+            // Initialize visit counter
+            initializeVisitCounter();
+
+            // Initialize parallax if portrait loads
+            if (portrait && portrait.complete && portrait.naturalHeight !== 0) {
+                initializeParallax();
+            } else if (portrait) {
+                portrait.addEventListener('load', initializeParallax);
+            }
+        }
+
+        // Theme functionality
+        function applyTheme() {
+            document.documentElement.setAttribute('data-theme', currentTheme);
+            try {
+                localStorage.setItem('theme', currentTheme);
+            } catch (e) {
+                console.log('Could not save theme to localStorage');
+            }
+            
+            const themeText = document.querySelector('.theme-text');
+            if (themeText) {
+                themeText.textContent = currentTheme === 'dark' ? translations[currentLanguage].theme.light : translations[currentLanguage].theme.dark;
+            }
+            
+            if (themeToggle) {
+                themeToggle.setAttribute('aria-pressed', currentTheme === 'dark');
+            }
+        }
+
+        function toggleTheme() {
+            currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+            applyTheme();
+        }
+
+        // Language functionality
+        function applyLanguage() {
+            document.documentElement.setAttribute('dir', currentLanguage === 'ar' ? 'rtl' : 'ltr');
+            document.documentElement.setAttribute('lang', currentLanguage);
+            try {
+                localStorage.setItem('language', currentLanguage);
+            } catch (e) {
+                console.log('Could not save language to localStorage');
+            }
+
+            // Update all translatable elements
+            const elementsToUpdate = [
+                { selector: '.theme-text', text: currentTheme === 'dark' ? translations[currentLanguage].theme.light : translations[currentLanguage].theme.dark },
+                { selector: '.language-text', text: translations[currentLanguage].language.other },
+                { selector: '.about-heading', text: translations[currentLanguage].about.heading },
+                { selector: '.name-label', text: translations[currentLanguage].about.name },
+                { selector: '.age-label', text: translations[currentLanguage].about.age },
+                { selector: '.location-label', text: translations[currentLanguage].about.location },
+                { selector: '.description-text', text: translations[currentLanguage].about.description },
+                { selector: '.contact-heading', text: translations[currentLanguage].contact.heading },
+                { selector: '.email-label', text: translations[currentLanguage].contact.email },
+                { selector: '.phone-label', text: translations[currentLanguage].contact.phone },
+                { selector: '.whatsapp-label', text: translations[currentLanguage].contact.whatsapp },
+                { selector: '.facebook-label', text: translations[currentLanguage].contact.facebook },
+                { selector: '.instagram-label', text: translations[currentLanguage].contact.instagram },
+                { selector: '.designer-btn', text: translations[currentLanguage].designer },
+                { selector: '.fallback-text', text: translations[currentLanguage].portraitUnavailable },
+                { selector: '.visits-text', text: translations[currentLanguage].visits },
+                { selector: '#copyright', text: translations[currentLanguage].copyright }
+            ];
+
+            elementsToUpdate.forEach(item => {
+                const element = document.querySelector(item.selector);
+                if (element) {
+                    element.textContent = item.text;
+                }
+            });
+
+            // Update copy indicators
+            document.querySelectorAll('.copy-indicator').forEach(el => {
+                el.textContent = translations[currentLanguage].copied;
+            });
+        }
+
+        function toggleLanguage() {
+            currentLanguage = currentLanguage === 'en' ? 'ar' : 'en';
+            applyLanguage();
+        }
+
+        // Copy to clipboard functionality
+        function setupClipboard() {
+            const phoneItem = document.querySelector('.phone-item');
+            
+            if (phoneItem) {
+                phoneItem.addEventListener('click', (e) => {
+                    // Allow the tel: link to work normally on mobile
+                    if (!isMobileDevice()) {
+                        e.preventDefault();
+                        
+                        // Copy phone number to clipboard
+                        navigator.clipboard.writeText('+201014752612').then(() => {
+                            phoneItem.classList.add('copied');
+                            showToast(translations[currentLanguage].copied);
+                            
+                            setTimeout(() => {
+                                phoneItem.classList.remove('copied');
+                            }, 2000);
+                        }).catch(err => {
+                            console.error('Failed to copy: ', err);
+                            // Fallback - open tel link if copy fails
+                            window.location.href = 'tel:+201014752612';
+                        });
+                    }
+                });
+            }
+        }
+
+        function isMobileDevice() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        }
+
+        // Toast notification
+        function showToast(message) {
+            if (toast) {
+                toast.textContent = message;
+                toast.classList.add('show');
+                
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 3000);
+            }
+        }
+
+        // Enhanced Parallax effect
+        function initializeParallax() {
+            if (!portrait) return;
+            
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                return;
+            }
+
+            let mouseX = 0;
+            let mouseY = 0;
+            let portraitX = 0;
+            let portraitY = 0;
+            const easing = 0.08;
+            const maxTilt = 8;
+
+            function handleMouseMove(e) {
+                const rect = portrait.getBoundingClientRect();
+                const centerX = rect.left + rect.width / 2;
+                const centerY = rect.top + rect.height / 2;
+                
+                mouseX = ((e.clientX - centerX) / rect.width) * maxTilt;
+                mouseY = ((e.clientY - centerY) / rect.height) * maxTilt;
+            }
+
+            function animate() {
+                portraitX += (mouseX - portraitX) * easing;
+                portraitY += (mouseY - portraitY) * easing;
+                
+                portrait.style.transform = `perspective(1200px) rotateY(${portraitX}deg) rotateX(${-portraitY}deg) scale3d(1.02, 1.02, 1.02)`;
+                
+                requestAnimationFrame(animate);
+            }
+
+            document.addEventListener('mousemove', handleMouseMove);
+            requestAnimationFrame(animate);
+
+            // Cleanup on unload
+            window.addEventListener('beforeunload', () => {
+                document.removeEventListener('mousemove', handleMouseMove);
+            });
+        }
+
+        // Event listeners
+        if (themeToggle) {
+            themeToggle.addEventListener('click', toggleTheme);
+        }
+
+        if (languageToggle) {
+            languageToggle.addEventListener('click', toggleLanguage);
+        }
+
+        // Keyboard accessibility
+        if (themeToggle) {
+            themeToggle.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    toggleTheme();
+                }
+            });
+        }
+
+        if (languageToggle) {
+            languageToggle.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    toggleLanguage();
+                }
+            });
+        }
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeApp();
+            setupClipboard();
+        });
+
+        // Error handling for image load
+        window.addEventListener('error', (e) => {
+            if (e.target.tagName === 'IMG') {
+                console.warn('Image failed to load:', e.target.src);
+                const fallback = document.getElementById('portraitFallback');
+                if (fallback) {
+                    fallback.style.display = 'flex';
+                }
+            }
+        }, true);
+    </script>
+</body>
+</html>
