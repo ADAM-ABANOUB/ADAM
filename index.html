@@ -142,30 +142,44 @@
             }
         }
 
-        /* Layout */
-        .container {
-            max-width: 1600px;
-            margin: 0 auto;
-            padding: var(--space-md);
-            display: grid;
-            grid-template-columns: 1.2fr 0.8fr;
-            gap: var(--space-xl);
+        /* Main Layout */
+        .main-wrapper {
             min-height: 100vh;
+            display: flex;
             align-items: center;
-            position: relative;
+            justify-content: center;
+            padding: var(--space-md);
+        }
+
+        .container {
+            max-width: 1400px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-xl);
+            align-items: center;
         }
 
         @media (max-width: 1200px) {
             .container {
                 grid-template-columns: 1fr;
                 gap: var(--space-lg);
+                max-width: 800px;
             }
         }
 
         @media (max-width: 768px) {
-            .container {
+            .main-wrapper {
                 padding: var(--space-sm);
+            }
+            .container {
                 gap: var(--space-md);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-wrapper {
+                padding: var(--space-xs);
             }
         }
 
@@ -243,17 +257,12 @@
             transform: translateY(-1px);
         }
 
-        .control-btn.active {
-            background: var(--glass-bg);
-        }
-
-        /* Portrait Section - No Border, Centered */
+        /* Portrait Section */
         .portrait-section {
-            position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
-            height: 100vh;
+            height: 100%;
         }
 
         .portrait-container {
@@ -272,7 +281,6 @@
             filter: brightness(1.05) contrast(1.1) saturate(1.1);
             position: relative;
             transition: transform 0.1s ease-out;
-            animation: portraitAppear 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
         .portrait-fog {
@@ -289,17 +297,6 @@
             pointer-events: none;
         }
 
-        @keyframes portraitAppear {
-            0% {
-                opacity: 0;
-                transform: scale(0.9) translateY(30px);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1) translateY(0);
-            }
-        }
-
         .portrait-fallback {
             width: 396px;
             height: 800px;
@@ -312,12 +309,46 @@
             font-size: 1.1rem;
         }
 
+        @media (max-width: 1200px) {
+            .portrait-container {
+                width: 350px;
+                height: 700px;
+                margin: 0 auto;
+            }
+            .portrait-fallback {
+                width: 350px;
+                height: 700px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .portrait-container {
+                width: 300px;
+                height: 600px;
+            }
+            .portrait-fallback {
+                width: 300px;
+                height: 600px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .portrait-container {
+                width: 280px;
+                height: 560px;
+            }
+            .portrait-fallback {
+                width: 280px;
+                height: 560px;
+            }
+        }
+
         /* Cards Section */
         .cards-section {
             display: flex;
             flex-direction: column;
             gap: var(--space-lg);
-            height: 85vh;
+            max-height: 800px;
             overflow-y: auto;
             padding-right: var(--space-sm);
         }
@@ -333,6 +364,14 @@
         .cards-section::-webkit-scrollbar-thumb {
             background: var(--glass-border);
             border-radius: 2px;
+        }
+
+        @media (max-width: 1200px) {
+            .cards-section {
+                max-height: none;
+                overflow-y: visible;
+                padding-right: 0;
+            }
         }
 
         .glass-card {
@@ -357,23 +396,6 @@
             height: 1px;
             background: linear-gradient(90deg, transparent, var(--accent), transparent);
             animation: pulseGlow 3s ease-in-out infinite;
-        }
-
-        .glass-card::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
-            opacity: 0;
-            transition: var(--transition);
-            pointer-events: none;
-        }
-
-        .glass-card:hover::after {
-            opacity: 0.1;
         }
 
         @keyframes pulseGlow {
@@ -513,49 +535,40 @@
             opacity: 1;
         }
 
-        /* Visit Counter */
-        .visit-counter {
+        /* Bottom Bar - Fixed at bottom */
+        .bottom-bar {
             position: fixed;
-            bottom: var(--space-md);
-            left: var(--space-md);
+            bottom: 0;
+            left: 0;
+            right: 0;
             background: var(--bg-secondary);
             backdrop-filter: blur(30px);
             -webkit-backdrop-filter: blur(30px);
-            border: 1px solid var(--glass-border);
-            border-radius: 50px;
-            padding: var(--space-xs) var(--space-sm);
+            border-top: 1px solid var(--glass-border);
+            padding: var(--space-sm) var(--space-md);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .visit-counter {
             color: var(--text-secondary);
             font-family: var(--font-sans);
             font-size: 0.8rem;
             font-weight: 500;
-            z-index: 100;
-            box-shadow: var(--shadow);
         }
 
-        /* Copyright */
         .copyright {
-            position: fixed;
-            bottom: var(--space-md);
-            left: 50%;
-            transform: translateX(-50%);
             color: var(--text-secondary);
             font-family: var(--font-sans);
             font-size: 0.7rem;
-            z-index: 100;
             text-align: center;
-            background: var(--bg-secondary);
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
-            border: 1px solid var(--glass-border);
-            border-radius: 50px;
-            padding: 0.3rem 1rem;
+            flex: 1;
         }
 
-        /* Designer Button - Smaller with blur background */
+        /* Designer Button */
         .designer-btn {
-            position: fixed;
-            bottom: var(--space-md);
-            right: var(--space-md);
             background: var(--bg-secondary);
             backdrop-filter: blur(30px);
             -webkit-backdrop-filter: blur(30px);
@@ -568,7 +581,6 @@
             font-size: 0.8rem;
             font-weight: 500;
             transition: var(--transition);
-            z-index: 100;
             box-shadow: var(--shadow);
         }
 
@@ -577,22 +589,6 @@
             background: var(--glass-bg);
             outline: none;
             transform: translateY(-2px);
-        }
-
-        .designer-btn::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            width: 0;
-            height: 1px;
-            background: var(--accent);
-            transition: var(--transition);
-            transform: translateX(-50%);
-        }
-
-        .designer-btn:hover::after {
-            width: 70%;
         }
 
         /* Toast Notification */
@@ -621,28 +617,13 @@
             opacity: 1;
         }
 
-        /* RTL Support - Enhanced */
+        /* RTL Support */
         [dir="rtl"] .header {
             left: auto;
             right: var(--space-md);
         }
 
         [dir="rtl"] .controls {
-            right: auto;
-            left: var(--space-md);
-        }
-
-        [dir="rtl"] .designer-btn {
-            right: auto;
-            left: var(--space-md);
-        }
-
-        [dir="rtl"] .visit-counter {
-            left: auto;
-            right: var(--space-md);
-        }
-
-        [dir="rtl"] .toast {
             right: auto;
             left: var(--space-md);
         }
@@ -680,88 +661,32 @@
             padding-left: var(--space-sm);
         }
 
-        [dir="rtl"] .cards-section::-webkit-scrollbar-thumb {
-            margin-left: var(--space-sm);
+        [dir="rtl"] .toast {
+            right: auto;
+            left: var(--space-md);
         }
 
-        /* Responsive Design */
+        /* Responsive Design for Bottom Bar */
         @media (max-width: 768px) {
-            .portrait-section {
-                height: auto;
-                justify-content: flex-start;
-            }
-            
-            .portrait-container {
-                width: 100%;
-                max-width: 396px;
-                height: 800px;
-            }
-            
-            .cards-section {
-                height: auto;
-                overflow-y: visible;
-                padding-right: 0;
-            }
-            
-            .glass-card {
-                padding: var(--space-md);
-            }
-            
-            .controls {
+            .bottom-bar {
+                padding: var(--space-xs) var(--space-sm);
                 flex-direction: column;
-                border-radius: 16px;
+                gap: var(--space-xs);
+                text-align: center;
             }
             
-            .contact-item {
-                gap: var(--space-sm);
-            }
-            
-            .visit-counter {
-                bottom: 70px;
-            }
-            
-            .copyright {
-                bottom: 70px;
-                font-size: 0.6rem;
-                padding: 0.2rem 0.8rem;
+            .visit-counter, .copyright, .designer-btn {
+                font-size: 0.7rem;
             }
         }
 
         @media (max-width: 480px) {
-            .container {
-                padding: var(--space-xs);
+            .bottom-bar {
+                padding: 0.5rem;
             }
             
-            .header {
-                top: var(--space-sm);
-                left: var(--space-sm);
-            }
-            
-            .controls {
-                top: var(--space-sm);
-                right: var(--space-sm);
-            }
-            
-            .designer-btn {
-                bottom: var(--space-sm);
-                right: var(--space-sm);
-            }
-            
-            .visit-counter {
-                bottom: 60px;
-                left: var(--space-sm);
-            }
-            
-            .copyright {
-                bottom: 60px;
-                left: 50%;
-                transform: translateX(-50%);
-                width: 90%;
-                font-size: 0.55rem;
-            }
-            
-            .brand {
-                font-size: clamp(2rem, 8vw, 3rem);
+            .visit-counter, .copyright, .designer-btn {
+                font-size: 0.65rem;
             }
         }
     </style>
@@ -786,130 +711,98 @@
         </button>
     </div>
 
-    <main class="container">
-        <section class="portrait-section">
-            <div class="portrait-container">
-                <img 
-                    src="https://i.postimg.cc/QMM6dkQJ/Picsart-25-11-06-22-57-23-101.png" 
-                    alt="Portrait of Adam"
-                    class="portrait"
-                    loading="eager"
-                    onerror="this.style.display='none'; document.getElementById('portraitFallback').style.display='flex';"
-                >
-                <div class="portrait-fog"></div>
-                <div id="portraitFallback" class="portrait-fallback" style="display: none;">
-                    <span class="fallback-text">Portrait unavailable</span>
-                </div>
-            </div>
-        </section>
-
-        <section class="cards-section">
-            <article class="glass-card" id="aboutCard">
-                <div class="card-header">
-                    <div class="accent-dot"></div>
-                    <h2 class="card-title about-heading">About</h2>
-                </div>
-                <div class="about-grid">
-                    <div class="about-item">
-                        <span class="about-label name-label">Name</span>
-                        <span class="about-value name-value">Adam Abanoub Sobhy</span>
+    <div class="main-wrapper">
+        <main class="container">
+            <section class="portrait-section">
+                <div class="portrait-container">
+                    <img 
+                        src="https://i.postimg.cc/QMM6dkQJ/Picsart-25-11-06-22-57-23-101.png" 
+                        alt="Portrait of Adam"
+                        class="portrait"
+                        loading="eager"
+                        onerror="this.style.display='none'; document.getElementById('portraitFallback').style.display='flex';"
+                    >
+                    <div class="portrait-fog"></div>
+                    <div id="portraitFallback" class="portrait-fallback" style="display: none;">
+                        <span class="fallback-text">Portrait unavailable</span>
                     </div>
-                    <div class="about-item">
-                        <span class="about-label age-label">Age</span>
-                        <span class="about-value age-value">6 Years</span>
-                    </div>
-                    <div class="about-item">
-                        <span class="about-label location-label">Nationality & Residence</span>
-                        <span class="about-value location-value">Egypt, Cairo</span>
-                    </div>
-                    <p class="about-description description-text">
-                        Adam is a talented young child model with exceptional presence in advertising, acting, and content creation. His natural expressiveness and creative personality make him stand out in the modeling industry. Adam brings genuine emotion and authenticity to every project, creating memorable moments that resonate with audiences.
-                    </p>
                 </div>
-            </article>
+            </section>
 
-            <article class="glass-card" id="contactCard">
-                <div class="card-header">
-                    <div class="accent-dot"></div>
-                    <h2 class="card-title contact-heading">For Advertising Requests</h2>
-                </div>
-                <ul class="contact-list">
-                    <li>
-                        <a href="mailto:adam@gmail.com" class="contact-item" target="_blank" rel="noopener noreferrer">
-                            <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                                <polyline points="22,6 12,13 2,6"></polyline>
-                            </svg>
-                            <div class="contact-content">
-                                <span class="contact-label email-label">Email</span>
-                                <span class="contact-value">adam@gmail.com</span>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="tel:+201212615667" class="contact-item phone-item">
-                            <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-                            </svg>
-                            <div class="contact-content"
-                                <span class="contact-label phone-label">Phone</span>
-                                <span class="contact-value">+20 101 475 2612</span>
-                            </div>
-                            <span class="copy-indicator">Copied!</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://wa.me/201014752612" class="contact-item" target="_blank" rel="noopener noreferrer">
-                            <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
-                            </svg>
-                            <div class="contact-content">
-                                <span class="contact-label whatsapp-label">WhatsApp</span>
-                                <span class="contact-value">+20 101 475 2612</span>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://facebook.com" class="contact-item" target="_blank" rel="noopener noreferrer">
-                            <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
-                            </svg>
-                            <div class="contact-content">
-                                <span class="contact-label facebook-label">Facebook</span>
-                                <span class="contact-value">Facebook.com/Adam</span>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://instagram.com" class="contact-item" target="_blank" rel="noopener noreferrer">
-                            <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                            </svg>
-                            <div class="contact-content">
-                                <span class="contact-label instagram-label">Instagram</span>
-                                <span class="contact-value">Instagram.com/Adam</span>
-                            </div>
-                        </a>
-                    </li>
-                </ul>
-            </article>
-        </section>
-    </main>
+            <section class="cards-section">
+                <article class="glass-card" id="aboutCard">
+                    <div class="card-header">
+                        <div class="accent-dot"></div>
+                        <h2 class="card-title about-heading">About</h2>
+                    </div>
+                    <div class="about-grid">
+                        <div class="about-item">
+                            <span class="about-label name-label">Name</span>
+                            <span class="about-value name-value">Adam Abanoub Sobhy</span>
+                        </div>
+                        <div class="about-item">
+                            <span class="about-label age-label">Age</span>
+                            <span class="about-value age-value">6 Years</span>
+                        </div>
+                        <div class="about-item">
+                            <span class="about-label location-label">Nationality & Residence</span>
+                            <span class="about-value location-value">Egypt, Cairo</span>
+                        </div>
+                        <p class="about-description description-text">
+                            Adam is a talented young child model with exceptional presence in advertising, acting, and content creation. His natural expressiveness and creative personality make him stand out in the modeling industry. Adam brings genuine emotion and authenticity to every project, creating memorable moments that resonate with audiences.
+                        </p>
+                    </div>
+                </article>
 
-    <div class="visit-counter" id="visitCounter">
-        <span class="visits-text">Visits: </span>
-        <span class="visits-count">0</span>
+                <article class="glass-card" id="contactCard">
+                    <div class="card-header">
+                        <div class="accent-dot"></div>
+                        <h2 class="card-title contact-heading">For Advertising Requests</h2>
+                    </div>
+                    <ul class="contact-list">
+                        <li>
+                            <a href="mailto:adam@gmail.com" class="contact-item" target="_blank" rel="noopener noreferrer">
+                                <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                    <polyline points="22,6 12,13 2,6"></polyline>
+                                </svg>
+                                <div class="contact-content">
+                                    <span class="contact-label email-label">Email</span>
+                                    <span class="contact-value">adam@gmail.com</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="tel:+201212615667" class="contact-item phone-item">
+                                <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                                </svg>
+                                <div class="contact-content">
+                                    <span class="contact-label phone-label">Phone & WhatsApp</span>
+                                    <span class="contact-value">01212615667</span>
+                                </div>
+                                <span class="copy-indicator">Copied!</span>
+                            </a>
+                        </li>
+                    </ul>
+                </article>
+            </section>
+        </main>
     </div>
 
-    <div class="copyright" id="copyright">
-        All rights reserved © Kerolos 2025
+    <!-- Bottom Bar with Copyright and Visit Counter -->
+    <div class="bottom-bar">
+        <div class="visit-counter" id="visitCounter">
+            <span class="visits-text">Visits: </span>
+            <span class="visits-count">0</span>
+        </div>
+        <div class="copyright" id="copyright">
+            All rights reserved © Kerolos 2025
+        </div>
+        <a href="https://koko2.com" class="designer-btn" target="_blank" rel="noopener noreferrer" aria-label="Design by Kerolos (opens in new tab)">
+            Design by Kerolos
+        </a>
     </div>
-
-    <a href="https://koko2.com" class="designer-btn" target="_blank" rel="noopener noreferrer" aria-label="Design by Kerolos (opens in new tab)">
-        Design by Kerolos
-    </a>
 
     <div class="toast" id="toast"></div>
 
@@ -935,7 +828,7 @@
                 contact: {
                     heading: "For Advertising Requests",
                     email: "Email",
-                    phone: "Phone",
+                    phone: "Phone & WhatsApp",
                     whatsapp: "WhatsApp",
                     facebook: "Facebook",
                     instagram: "Instagram"
@@ -965,7 +858,7 @@
                 contact: {
                     heading: "لطلبات الإعلانات",
                     email: "البريد الإلكتروني",
-                    phone: "الهاتف",
+                    phone: "الهاتف وواتساب",
                     whatsapp: "واتساب",
                     facebook: "فيسبوك",
                     instagram: "إنستغرام"
@@ -995,7 +888,6 @@
 
         // Visit Counter (1 visit per minute)
         function initializeVisitCounter() {
-            // Get initial visit count from localStorage or start from 0
             const savedVisits = localStorage.getItem('adamVisits');
             const startTime = localStorage.getItem('adamStartTime');
             
@@ -1009,16 +901,14 @@
                 localStorage.setItem('adamStartTime', Date.now().toString());
             }
             
-            // Save initial count
             localStorage.setItem('adamVisits', visitCount.toString());
             updateVisitCounter();
             
-            // Update every minute
             setInterval(() => {
                 visitCount += 1;
                 localStorage.setItem('adamVisits', visitCount.toString());
                 updateVisitCounter();
-            }, 60000); // 1 minute
+            }, 60000);
         }
 
         function updateVisitCounter() {
@@ -1051,7 +941,6 @@
                 }
                 applyTheme();
             } catch (e) {
-                console.log('Theme initialization error:', e);
                 currentTheme = 'light';
                 applyTheme();
             }
@@ -1064,7 +953,6 @@
                 }
                 applyLanguage();
             } catch (e) {
-                console.log('Language initialization error:', e);
                 currentLanguage = 'en';
                 applyLanguage();
             }
@@ -1092,10 +980,6 @@
             const themeText = document.querySelector('.theme-text');
             if (themeText) {
                 themeText.textContent = currentTheme === 'dark' ? translations[currentLanguage].theme.light : translations[currentLanguage].theme.dark;
-            }
-            
-            if (themeToggle) {
-                themeToggle.setAttribute('aria-pressed', currentTheme === 'dark');
             }
         }
 
@@ -1142,7 +1026,6 @@
                 }
             });
 
-            // Update copy indicators
             document.querySelectorAll('.copy-indicator').forEach(el => {
                 el.textContent = translations[currentLanguage].copied;
             });
@@ -1159,12 +1042,10 @@
             
             if (phoneItem) {
                 phoneItem.addEventListener('click', (e) => {
-                    // Allow the tel: link to work normally on mobile
                     if (!isMobileDevice()) {
                         e.preventDefault();
                         
-                        // Copy phone number to clipboard
-                        navigator.clipboard.writeText('+201212615667').then(() => {
+                        navigator.clipboard.writeText('01212615667').then(() => {
                             phoneItem.classList.add('copied');
                             showToast(translations[currentLanguage].copied);
                             
@@ -1172,9 +1053,7 @@
                                 phoneItem.classList.remove('copied');
                             }, 2000);
                         }).catch(err => {
-                            console.error('Failed to copy: ', err);
-                            // Fallback - open tel link if copy fails
-                            window.location.href = 'tel:+201212615667';
+                            window.location.href = 'tel:01212615667';
                         });
                     }
                 });
@@ -1233,7 +1112,6 @@
             document.addEventListener('mousemove', handleMouseMove);
             requestAnimationFrame(animate);
 
-            // Cleanup on unload
             window.addEventListener('beforeunload', () => {
                 document.removeEventListener('mousemove', handleMouseMove);
             });
@@ -1248,25 +1126,6 @@
             languageToggle.addEventListener('click', toggleLanguage);
         }
 
-        // Keyboard accessibility
-        if (themeToggle) {
-            themeToggle.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    toggleTheme();
-                }
-            });
-        }
-
-        if (languageToggle) {
-            languageToggle.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    toggleLanguage();
-                }
-            });
-        }
-
         // Initialize the application
         document.addEventListener('DOMContentLoaded', () => {
             initializeApp();
@@ -1276,7 +1135,6 @@
         // Error handling for image load
         window.addEventListener('error', (e) => {
             if (e.target.tagName === 'IMG') {
-                console.warn('Image failed to load:', e.target.src);
                 const fallback = document.getElementById('portraitFallback');
                 if (fallback) {
                     fallback.style.display = 'flex';
